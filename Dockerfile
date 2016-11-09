@@ -33,6 +33,9 @@ echo nameserver 127.0.0.1 > /etc/resolv.conf.append \n\
 cat /etc/resolv.conf.append /etc/resolv.conf.base > /etc/resolv.conf \n\
  \n\
 sed -i -e "s/^address=\/dev\/@@@@@/address=\/dev\/`hostbyaddress ${DISCOVERY}`/" /etc/dnsmasq.conf \n\
+if [ -n "${DOMAIN+x}" ] ; then \n\
+  sed -i -e "s/dev/${DOMAIN}/" /etc/dnsmasq.conf; \n\
+fi \n\
 /etc/init.d/dnsmasq start \n\
 /etc/init.d/tinyproxy start \n\
 /usr/sbin/sshd -D \n\
